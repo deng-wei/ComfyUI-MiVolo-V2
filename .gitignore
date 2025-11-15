@@ -1,0 +1,26 @@
+# Python
+###################
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE / Editor specific
+###################
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+###################
+.DS_Store
+Thumbs.db
+
+# Build / Distribution
+###################
+build/
+dist/
+*.egg-info/
+*.egg

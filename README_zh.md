@@ -1,0 +1,157 @@
+# ComfyUI MiVolo V2 节点
+
+
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Original Project](https://img.shields.io/badge/Original%20Model-iitolstykh/mivolo_v2-blue)](https://huggingface.co/iitolstykh/mivolo_v2)
+
+在 ComfyUI 中直接使用先进的 **MiVolo V2** 模型进行高精度的**年龄和性别预测**！
+
+这个项目是 `iitolstykh/mivolo_v2` 模型的一个 ComfyUI 封装节点。MiVolo 是一个基于 Transformer 的多输入（面部和身体）模型，能够提供可靠的年龄和性别估计。
+
+## 🌟 核心功能
+
+* **年龄预测 (Age Estimation):** 接收图像（包含面部或身体），输出预测的年龄的字符串。
+* **性别预测 (Gender Estimation):** 输出预测的性别（例如：Male/Female）的字符串。
+* **多人输入支持:** 自动处理面部和身体裁剪图，以提高准确性（基于原始模型能力）。
+
+## 🖼️ 节点和工作流示例
+
+### 示例工作流
+
+![MiVOLO-V2 Workflow Example](examples/MiVOLO-V2.png)
+
+## 🚀 如何安装
+
+### 1. (推荐) 使用 ComfyUI Manager
+1.  打开 ComfyUI Manager。
+2.  点击 "Install Custom Nodes"。
+3.  搜索 `ComfyUI-MiVolo-V2` 并安装。
+4.  重启 ComfyUI。
+
+### 2. (手动) Git Clone
+1.  打开终端，进入 ComfyUI 的 `custom_nodes` 目录:
+    ```bash
+    cd ComfyUI/custom_nodes/
+    ```
+2.  Clone 本仓库:
+    ```bash
+    git clone [您的 GitHub 仓库 URL]
+    ```
+3.  安装依赖:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  重启 ComfyUI。
+
+-----
+
+## 📦 模型安装说明
+
+本自定义节点需要两种模型：
+
+1.  **MiVOLO 年龄/性别模型** (用于预测)
+2.  **YOLO 检测模型** (用于查找人脸和身体，可选)
+
+本项目支持**自动下载**和**手动放置**模型。
+
+### 1\. MiVOLO 年龄/性别模型 (`MiVOLOLoader`)
+
+这是主要的预测模型。
+
+  * **模型名称:** `iitolstykh/mivolo_v2`
+  * **存放路径:** `ComfyUI/models/mivolo/`
+
+#### 方式 A：自动下载 (推荐)
+
+代码已配置为自动处理。
+
+1.  在 ComfyUI 中，添加 **"Load MiVOLO Model"** 节点。
+2.  在 `model_name` 字段中，**保持选中默认的 `"iitolstykh/mivolo_v2"`**。
+3.  第一次运行工作流时，`transformers` 库会自动从 Hugging Face 下载该模型并将其缓存到您的系统中。
+
+#### 方式 B：手动下载
+
+如果您希望手动管理模型，或者在离线环境中使用：
+
+1.  访问 Hugging Face 仓库: [https://huggingface.co/iitolstykh/mivolo\_v2](https://huggingface.co/iitolstykh/mivolo_v2)
+2.  将整个仓库下载或 `git clone` 下来。
+3.  确保所有模型文件（如 `config.json`, `pytorch_model.bin` 等）都位于一个以模型名称命名的文件夹中。
+4.  将该文件夹放置在 ComfyUI 的 `models` 目录下的 `mivolo` 文件夹中。
+
+**最终路径应如下所示:**
+
+```
+ComfyUI/
+└── models/
+    └── mivolo/
+        └── iitolstykh/mivolo_v2/
+            ├── config.json
+            ├── configuration_mivolo.py
+            ├── modeling_mivolo.py
+            ├── pytorch_model.bin
+            └── ... (其他所有文件)
+```
+
+完成后，"Load MiVOLO Model" 节点将自动在下拉列表中检测到它。
+
+-----
+
+### 2\. YOLO 检测模型 (`MiVOLODetectorLoader`)
+
+这是一个 `.pt` 文件，用于在图像中检测人物和面部。
+
+  * **模型名称:** `yolov8x_person_face.pt`
+  * **Hugging Face 仓库:** `iitolstykh/demo_yolov8_detector`
+  * **存放路径:** `ComfyUI/models/yolo/`
+
+#### 方式 A：自动下载 (推荐)
+
+如果您想自动下载。
+
+1.  在 ComfyUI 中，添加 **"Load MiVOLO Detector (YOLO)"** 节点。
+2.  保持选中默认的 `model_name`：`"iitolstykh/demo_yolov8_detector/yolov8x_person_face.pt"`。
+3.  第一次运行工作流时，脚本会检查 `ComfyUI/models/yolo/` 文件夹。
+4.  如果 `yolov8x_person_face.pt` 文件不存在，脚本将**自动从 Hugging Face 下载它并放置在正确的 `yolo` 文件夹中**。
+
+#### 方式 B：手动下载
+
+如果您想手动下载：
+
+1.  访问 Hugging Face 仓库: [https://huggingface.co/iitolstykh/demo\_yolov8\_detector/tree/main](https://huggingface.co/iitolstykh/demo_yolov8_detector/tree/main)
+2.  下载 `yolov8x_person_face.pt` 这一个文件。
+3.  将该文件放置在 ComfyUI 的 `models` 目录下的 `yolo` 文件夹中。 (如果 `yolo` 文件夹不存在，请创建它)。
+
+**最终路径应如下所示:**
+
+```
+ComfyUI/
+└── models/
+    └── yolo/
+        └── yolov8x_person_face.pt
+```
+
+完成后，"Load MiVOLO Detector (YOLO)" 节点将能立即加载该模型。
+
+## 💡 使用技巧
+
+* 为了获得最佳效果，请确保输入的图像清晰且人脸/身体可见。
+* 支持使用已裁剪的人脸作为输入，也支持自动检测人脸。
+* 可以用于分析 AI 生成的人像，或根据年龄/性别进行条件控制。
+
+## 📜 致谢与许可
+
+**本项目是基于 `iitolstykh/mivolo_v2` 的改编材料 (Adapted Material)。**
+
+* **原始模型:** [iitolstykh/mivolo_v2 (Hugging Face)](https://huggingface.co/iitolstykh/mivolo_v2)
+* **原始论文:**
+    * [MiVOLO: Multi-input Transformer for Age and Gender Estimation (2023)](https://arxiv.org/abs/2307.04616)
+    * [Beyond Specialization: Assessing the Capabilities of MLLMs in Age and Gender Estimation (2024)](https://arxiv.org/abs/2403.02302)
+* **原始许可:** 原始项目使用了一份自定义的、基于 CC BY-SA 4.0 的许可协议。详情请见：[原始仓库的LICENSE文件](https://github.com/WildChlamydia/MiVOLO/tree/main/license)
+
+根据原始许可的“保留条件”，**本 ComfyUI 节点项目同样在 Creative Commons Attribution-ShareAlike 4.0 (CC BY-SA 4.0) 许可下开源。**
+
+这意味着您可以在遵守署名和相同方式共享的前提下，自由地使用、修改和分发本项目。
+
+## 🐞 问题反馈
+
+如果遇到任何问题或有功能建议，请随时在 "Issues" 页面提出！

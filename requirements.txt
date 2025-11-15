@@ -1,0 +1,7 @@
+requests
+pillow
+transformers
+accelerate
+torch
+ultralytics
+git+https://github.com/WildChlamydia/MiVOLO.git

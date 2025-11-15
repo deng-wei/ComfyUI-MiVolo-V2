@@ -2,6 +2,10 @@
 
 # ComfyUI MiVolo V2 Node
 
+
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![Original Project](https://img.shields.io/badge/Original%20Model-iitolstykh/mivolo_v2-blue)](https://huggingface.co/iitolstykh/mivolo_v2)
+
 Use the advanced **MiVolo V2** model directly in ComfyUI for high-precision age and gender prediction!
 
 This project is a ComfyUI wrapper node for the `iitolstykh/mivolo_v2` model. MiVolo is a Transformer-based, multi-input (face and body) model that provides reliable age and gender estimations.

@@ -37,9 +37,8 @@ Example Workflow:
     ```
 2.  Clone this repository:
     ```bash
-    git clone [https://github.com/](https://github.com/)[YourUsername]/ComfyUI-MiVolo-V2.git
+    git clone https://github.com/deng-wei/ComfyUI-MiVolo-V2.git
     ```
-    *(Please replace `[YourUsername]` with your actual GitHub username)*
 3.  Install the dependencies:
     ```bash
     pip install -r requirements.txt

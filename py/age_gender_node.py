@@ -107,7 +107,7 @@ class MiVOLOAgeGenderPredictorWithDetector:
     RETURN_TYPES = ("STRING", "STRING", "STRING")
     RETURN_NAMES = ("prediction_text", "age", "gender")
     FUNCTION = "predict_with_detector"
-    CATEGORY = "DW/AgeGender"
+    CATEGORY = "MiVOLO/AgeGender"
 
     def _predict_single(self, model_pack, face_crop, body_crop):
         """
